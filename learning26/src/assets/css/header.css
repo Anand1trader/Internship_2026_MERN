@@ -1,0 +1,11 @@
+.header{
+    background-color: blanchedalmond;
+    height: 100px;
+    width: 300px;
+    margin-top: 100px;
+    text-align: center;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    
+}
