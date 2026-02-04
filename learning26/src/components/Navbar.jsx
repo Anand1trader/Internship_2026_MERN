@@ -54,7 +54,11 @@ export const Navbar = () => {
                 My List
               </Link>
             </li>
-
+            <li className="nav-item">
+              <Link className="nav-link" to="/teams">
+                Teams
+              </Link>
+            </li>
           </ul>
         </div>
 

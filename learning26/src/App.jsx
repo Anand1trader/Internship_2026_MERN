@@ -17,12 +17,14 @@ import { Navbar } from './components/Navbar'
 import { NetflixHome }from './components/NetflixHome'
 import { NetflixMovies } from './components/NetflixMovies'
 import { NetflixShows } from './components/NetflixShows'
-import { Route, Routes } from 'react-router-dom'
+import { BrowserRouter,Route, Routes } from 'react-router-dom'
 import { NetflixLatest } from './components/NetflixLatest'
 import { NetflixMylist } from './components/NetflixMylist'
 import { HomeComponent } from './components/HomeComponent'
 import { Watch } from './components/Watch'
 import { ErrorNotFound } from './components/ErrorNotFound'
+import { Teams } from './components/Teams'
+import { TeamDetail } from './components/TeamDetail'
 
 //import './App.css'
 
@@ -39,6 +41,8 @@ function App() {
           <Route path="/netflixmylist" element={<NetflixMylist/>}></Route>
           <Route path="/watch/:name" element = {<Watch/>}></Route>
           <Route path="/*" element = {<ErrorNotFound/>}></Route>
+          <Route path='/teams' element={<Teams/>}></Route>
+          <Route path='/teamdetail/:teamname' element={<TeamDetail/>}></Route>
        </Routes>
     </div>
     
