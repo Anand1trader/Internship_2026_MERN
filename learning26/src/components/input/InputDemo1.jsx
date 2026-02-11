@@ -3,15 +3,26 @@ import React, { useState } from 'react'
 export const InputDemo1 = () => {
   const[name,setName] = useState("")
   const[age,setAge] = useState("")
+  const[gender,setgender] = useState("")
+  const[country,setcountry] = useState("")
   const[city,setCity] = useState("")
   const[collagename,setCollageName] = useState("")
   const[sem,setSem] = useState("")
+  const[enroll,setenroll] = useState("")
+  const[mobileno,setmobileno] = useState("")
+  const[hobby,sethobby] = useState("")
   const nameHandler = (event)=>{
     console.log(event.target.value)
     setName(event.target.value)
   }
   const ageHandler = (event)=>{
     setAge(event.target.value)
+  }
+  const genderHandler = (event)=>{
+    setgender(event.target.value)
+  }
+  const countryHandler = (event)=>{
+    setcountry(event.target.value)
   }
   const cityHandler = (event)=>{
     setCity(event.target.value)
@@ -21,6 +32,15 @@ export const InputDemo1 = () => {
   }
   const semHandler = (event)=>{
     setSem(event.target.value)
+  }
+  const enrollHandler = (event)=>{
+    setenroll(event.target.value)
+  }
+  const mobilenoHandler = (event)=>{
+    setmobileno(event.target.value)
+  }
+  const hobbyhandler = (event)=>{
+    sethobby(event.target.value)
   }
   return (
     <div style={{textAlign:"center"}}>
@@ -36,6 +56,16 @@ export const InputDemo1 = () => {
           {age}
         </div>
         <div>
+          <label>GENDER</label>
+          <input type='text' onChange={(event)=>{genderHandler(event)}}></input>
+          {gender}
+        </div>
+        <div>
+          <label>COUNTRY</label>
+          <input type='text' onChange={(event)=>{countryHandler(event)}}></input>
+          {country}
+        </div>
+        <div>
           <label style={{textAlign:"center"}}>CITY</label>
           <input type='text' onChange={(event)=>{cityHandler(event)}}></input>
           {city}
@@ -48,8 +78,24 @@ export const InputDemo1 = () => {
         <div>
           <label style={{textAlign:"center"}}>SEM</label>
           <input type='text' onChange={(event)=>{semHandler(event)}}></input>
-          <br></br>
           {sem}
+        </div>
+        <div>
+          <label style={{textAlign:"center"}}>ENROLL</label>
+          <input type='text' onChange={(event)=>{enrollHandler(event)}}></input>
+          {enroll}
+        </div>
+        <div>
+          <label style={{textAlign:"center"}}>MOBILE NO</label>
+          <input type='text' onChange={(event)=>{mobilenoHandler(event)}}></input>
+        
+          {mobileno}
+        </div>
+        <div>
+          <label style={{textAlign:"center"}}>HOBBY</label>
+          <input type='text' onChange={(event)=>{hobbyhandler(event)}}></input>
+      
+          {hobby}
         </div>
 
     </div>
