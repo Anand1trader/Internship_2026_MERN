@@ -23,7 +23,7 @@ export const InputDemo2 = () => {
             MALE : <input type='radio' value="male" name='gender' onChange={(event)=>{genderHandler(event)}}></input>
             <br></br>
             FEMALE : <input type='radio' value="female" name='gender' onChange={(event)=>{genderHandler(event)}}></input>
-            <h1>{}gender</h1>
+            <h4>{gender}</h4>
         </div>
         <div>
             <label>COUNTRY</label>

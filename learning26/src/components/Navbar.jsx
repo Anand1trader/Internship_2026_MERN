@@ -31,7 +31,7 @@ export const Navbar = () => {
               </Link>
             </li>
 
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <Link className="nav-link" to="/netflixshows">
                 Shows
               </Link>
@@ -58,8 +58,8 @@ export const Navbar = () => {
               <Link className="nav-link" to="/teams">
                 Teams
               </Link>
-            </li>
-            <li className="nav-item">
+            </li> */}
+            {/* <li className="nav-item">
               <Link className="nav-link" to="/usestatedemo1">
                 Usestatedemo1
               </Link>
@@ -83,7 +83,7 @@ export const Navbar = () => {
               <Link className="nav-link" to="/employees">
                 Employees
               </Link>
-            </li>
+            </li> */}
             <li className="nav-item">
               <Link className="nav-link" to="/inputdemo1">
                 InputDemo1
@@ -97,6 +97,41 @@ export const Navbar = () => {
             <li className="nav-item">
               <Link className="nav-link" to="/formdemo1">
                 FormDemo1
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/formdemo2">
+                FormDemo2
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/formdemo3">
+                FormDemo3
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/formdemo4">
+                FormDemo4
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/apidemo1">
+                ApiDemo1
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/apidemo2">
+                ApiDemo2
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/apidemo3">
+                ApiDemo3
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/omdbsearch">
+                OmdbSearch
               </Link>
             </li>
           </ul>
