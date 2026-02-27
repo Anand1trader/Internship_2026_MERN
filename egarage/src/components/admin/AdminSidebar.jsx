@@ -7,10 +7,10 @@ export const AdminSidebar = () => {
 
   const menuItems = [
     { name: "Dashboard", path: "/admin" },
-    { name: "Users", path: "/admin/users" },
+    { name: "Users", path: "/admin/allusers" },
     { name: "Garages", path: "/admin/garages" },
     { name: "Bookings", path: "/admin/bookings" },
-    { name: "Services", path: "/admin/services" },
+    { name: "Services", path: "/admin/adminservices" },
     { name: "Payments", path: "/admin/payments" },
   ];
 

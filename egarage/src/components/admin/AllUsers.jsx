@@ -2,6 +2,8 @@ import React from 'react'
 
 export const AllUsers = () => {
   return (
-    <div>AllUsers</div>
+    <div>
+      <h1>All Users</h1>
+    </div>
   )
 }

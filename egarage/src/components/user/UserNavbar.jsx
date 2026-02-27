@@ -1,7 +1,16 @@
-import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import React, { use, useState } from "react";
+import { Link, Outlet, useLocation } from "react-router-dom";
 
 export const UserNavbar = () => {
+  const [isopen, setIsopen] = useState(true);
+  const location = useLocation();
+  const menuItems = [
+    { name:"About", path:"/user/About"},
+    { name:"Services", path:"/user/Services"},
+    { name:"Contact", path:"/user/Contact"},
+    { name:"Get API Demo", path:"/user/getapidemo"},
+    { name:"Use Effect Demo", path:"/user/useeffectdemo"},
+  ];
   return (
     <div className="min-h-screen flex flex-col">
 
@@ -25,13 +34,19 @@ export const UserNavbar = () => {
             <Link to="/" className="hover:text-red-600">HOME</Link>
           </li>
           <li>
-            <Link to="/about" className="hover:text-red-600">ABOUT</Link>
+            <Link to="about" className="hover:text-red-600">ABOUT</Link>
           </li>
           <li>
-            <Link to="/services" className="hover:text-red-600">SERVICES</Link>
+            <Link to="services" className="hover:text-red-600">SERVICES</Link>
           </li>
           <li>
-            <Link to="/contact" className="hover:text-red-600">CONTACT</Link>
+            <Link to="contact" className="hover:text-red-600">CONTACT</Link>
+          </li>
+          <li>
+            <Link to="getapidemo" className="hover:text-red-600">GET API DEMO</Link>
+          </li>
+          <li>
+            <Link to="useeffectdemo" className="hover:text-red-600">USE EFFECT DEMO</Link>
           </li>
         </ul>
 

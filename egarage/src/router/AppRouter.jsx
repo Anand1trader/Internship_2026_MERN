@@ -10,6 +10,9 @@ import { Garages } from "../components/admin/Garages";
 import { Bookings } from "../components/admin/Bookings";
 import { Payments } from "../components/admin/Payments";
 import { AdminServices } from "../components/admin/AdminServices";
+import { GetApiDemo } from "../components/user/GetApiDemo";
+import { UseEffectDemo } from "../components/user/UseEffectDemo";
+import { Contact } from "../components/user/Contact";
 const router = createBrowserRouter([
     {path:"/", element:<Login/>},
     {path:"/signup", element:<Signup/>},
@@ -17,7 +20,10 @@ const router = createBrowserRouter([
         path:"/user", element:<UserNavbar/>,
         children:[
             {path:"about", element:<About/>},
-            {path:"services", element:<Services/>}
+            {path:"services", element:<Services/>},
+            {path:"contact", element:<Contact/>},
+            {path:"getapidemo", element:<GetApiDemo/>},
+            {path:"useeffectdemo", element:<UseEffectDemo/>}
         ]
     },
     {
