@@ -1,18 +1,40 @@
+import axios from "axios";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
-export const Signup = () => {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm();
+const Signup = () => {
+
+  const navigate = useNavigate();
+
+  const { register, handleSubmit, formState: { errors }, watch, reset } = useForm();
 
   const password = watch("password");
 
-  const onSubmit = (data) => {
-    console.log("Signup Data:", data);
+  const submitHandler = async (data) => {
+    console.log("data", data);
+
+    try {
+      const res = await axios.post("http://localhost:3000/user/register", data);
+
+      console.log("response..", res);
+
+      if (res.status === 201) {
+        alert("User Registered Successfully ✅");
+        reset(); // form clear
+        navigate("/");
+      }
+
+    } catch (err) {
+      console.log(err);
+
+      // 🔥 Backend error handling
+      if (err.response?.data?.error) {
+        alert(err.response.data.error);
+      } else {
+        alert("Something went wrong ❌");
+      }
+    }
   };
 
   return (
@@ -34,19 +56,33 @@ export const Signup = () => {
             Create eGarage Account
           </h2>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-
-            {/* Full Name */}
+          <form onSubmit={handleSubmit(submitHandler)} className="space-y-4">
+          
+            {/* First Name */}
             <div>
-              <label className="block mb-1 font-medium">Full Name</label>
+              <label className="block mb-1 font-medium">First Name</label>
               <input
                 type="text"
-                placeholder="Enter your full name"
-                {...register("name", { required: "Name is required" })}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                placeholder="Enter first name"
+                {...register("firstName", { required: "First name is required" })}
+                className="w-full px-4 py-2 border rounded-lg"
               />
-              {errors.name && (
-                <p className="text-red-500 text-sm">{errors.name.message}</p>
+              {errors.firstName && (
+                <p className="text-red-500 text-sm">{errors.firstName.message}</p>
+              )}
+            </div>
+
+            {/* Last Name */}
+            <div>
+              <label className="block mb-1 font-medium">Last Name</label>
+              <input
+                type="text"
+                placeholder="Enter last name"
+                {...register("lastName", { required: "Last name is required" })}
+                className="w-full px-4 py-2 border rounded-lg"
+              />
+              {errors.lastName && (
+                <p className="text-red-500 text-sm">{errors.lastName.message}</p>
               )}
             </div>
 
@@ -56,10 +92,8 @@ export const Signup = () => {
               <input
                 type="email"
                 placeholder="Enter your email"
-                {...register("email", {
-                  required: "Email is required",
-                })}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                {...register("email", { required: "Email is required" })}
+                className="w-full px-4 py-2 border rounded-lg"
               />
               {errors.email && (
                 <p className="text-red-500 text-sm">{errors.email.message}</p>
@@ -79,7 +113,7 @@ export const Signup = () => {
                     message: "Enter valid phone number",
                   },
                 })}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                className="w-full px-4 py-2 border rounded-lg"
               />
               {errors.phone && (
                 <p className="text-red-500 text-sm">{errors.phone.message}</p>
@@ -99,7 +133,7 @@ export const Signup = () => {
                     message: "Minimum 6 characters required",
                   },
                 })}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                className="w-full px-4 py-2 border rounded-lg"
               />
               {errors.password && (
                 <p className="text-red-500 text-sm">
@@ -119,7 +153,7 @@ export const Signup = () => {
                   validate: (value) =>
                     value === password || "Passwords do not match",
                 })}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                className="w-full px-4 py-2 border rounded-lg"
               />
               {errors.confirmPassword && (
                 <p className="text-red-500 text-sm">
@@ -131,7 +165,7 @@ export const Signup = () => {
             {/* Button */}
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300"
+              className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
             >
               Sign Up
             </button>
@@ -139,7 +173,10 @@ export const Signup = () => {
 
           <p className="text-center text-sm mt-4">
             Already have an account?{" "}
-            <span className="text-blue-600 cursor-pointer">
+            <span 
+              onClick={() => navigate("/login")}
+              className="text-blue-600 cursor-pointer"
+            >
               Login
             </span>
           </p>
@@ -148,3 +185,5 @@ export const Signup = () => {
     </div>
   );
 };
+
+export default Signup;

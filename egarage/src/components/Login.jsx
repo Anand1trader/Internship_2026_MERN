@@ -5,9 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Eye, EyeOff } from "lucide-react";
 
-export const Login = () => {
+const Login = () => {
+
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -17,32 +19,37 @@ export const Login = () => {
   const onSubmit = async (data) => {
     try {
       const res = await axios.post(
-        "https://node5.onrender.com/user/login",
+        "http://localhost:3000/user/login",
         data
       );
 
       if (res.status === 200) {
+        // ✅ Save token (IMPORTANT)
+        localStorage.setItem("token", res.data.token);
+
         toast.success("Login Successful ✅");
+
+        // ✅ Redirect after login
         navigate("/user");
       }
     } catch (err) {
       console.log("Login Error:", err);
-      toast.error("Login Failed ❌");
+
+      // ✅ Show real backend error
+      const msg =
+        err.response?.data?.message || "Invalid email or password ❌";
+
+      toast.error(msg);
     }
   };
 
   return (
     <div
-    className="min-h-screen flex items-center justify-center bg-cover bg-center relative"
-    style={{
-      backgroundImage: "url('/login-bg.png')",
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      backgroundRepeat: "no-repeat",
+      className="min-h-screen flex items-center justify-center bg-cover bg-center relative"
+      style={{
+        backgroundImage: "url('/login-bg.png')",
       }}
-      >
-      <img src="/login-bg.png" alt="test" width="200" />
-
+    >
       {/* Dark Overlay */}
       <div className="absolute inset-0 bg-black bg-opacity-60"></div>
 
@@ -53,6 +60,7 @@ export const Login = () => {
         </h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+          
           {/* Email */}
           <div>
             <label className="block mb-1 font-medium">Email</label>
@@ -62,7 +70,7 @@ export const Login = () => {
               {...register("email", {
                 required: "Email is required",
               })}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+              className="w-full px-4 py-2 border rounded-lg"
             />
             {errors.email && (
               <p className="text-red-500 text-sm mt-1">
@@ -85,7 +93,7 @@ export const Login = () => {
                   message: "Minimum 6 characters required",
                 },
               })}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none pr-10"
+              className="w-full px-4 py-2 border rounded-lg pr-10"
             />
 
             <button
@@ -103,9 +111,10 @@ export const Login = () => {
             )}
           </div>
 
+          {/* Button */}
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300"
+            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
           >
             Login
           </button>
@@ -124,3 +133,4 @@ export const Login = () => {
     </div>
   );
 };
+export default Login; 
