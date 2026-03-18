@@ -5,7 +5,7 @@ import { UserNavbar } from "../components/user/UserNavbar";
 import { AdminSidebar } from "../components/admin/AdminSidebar";
 import { About } from "../components/user/About";
 import { Services } from "../components/user/Services";
-import { AllUsers } from "../components/admin/AllUsers";
+import { UserPanel } from "../components/admin/UserPanel";
 import { Garages } from "../components/admin/Garages";
 import { Bookings } from "../components/admin/Bookings";
 import { Payments } from "../components/admin/Payments";
@@ -29,7 +29,7 @@ const router = createBrowserRouter([
     {
         path:"/admin", element:<AdminSidebar/>,
         children:[
-            {path:"allusers", element:<AllUsers/>},
+            {path:"userpanel", element:<UserPanel/>},
             {path:"garages", element:<Garages/>},
             {path:"bookings", element:<Bookings/>},
             {path:"adminservices", element:<AdminServices/>},

@@ -26,6 +26,7 @@ const Login = () => {
       if (res.status === 200) {
         // ✅ Save token (IMPORTANT)
         localStorage.setItem("token", res.data.token);
+        localStorage.setItem("role", res.data.role);
 
         toast.success("Login Successful ✅");
 
