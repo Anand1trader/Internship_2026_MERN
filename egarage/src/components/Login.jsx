@@ -17,32 +17,35 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    try {
-      const res = await axios.post(
-        "http://localhost:3000/user/login",
-        data
-      );
+  try {
+    const res = await axios.post(
+      "http://localhost:3000/user/login", // ✅ FIXED PORT
+      data
+    );
 
-      if (res.status === 200) {
-        // ✅ Save token (IMPORTANT)
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("role", res.data.role);
+    if (res.status === 200) {
+      // ✅ Save token & role
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("role", res.data.role);
 
-        toast.success("Login Successful ✅");
+      toast.success("Login Successful ✅");
 
-        // ✅ Redirect after login
-        navigate("/user");
+      // 🔥 ROLE BASED REDIRECT
+      if (res.data.role === "admin") {
+        navigate("/admin"); // admin dashboard
+      } else {
+        navigate("/user"); // normal user page
       }
-    } catch (err) {
-      console.log("Login Error:", err);
-
-      // ✅ Show real backend error
-      const msg =
-        err.response?.data?.message || "Invalid email or password ❌";
-
-      toast.error(msg);
     }
-  };
+  } catch (err) {
+    console.log("Login Error:", err);
+
+    const msg =
+      err.response?.data?.message || "Invalid email or password ❌";
+
+    toast.error(msg);
+  }
+};
 
   return (
     <div

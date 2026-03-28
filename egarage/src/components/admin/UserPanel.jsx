@@ -1,24 +1,23 @@
-// src/pages/admin/AllUsers.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
 
-export const UsersPanel = () => {
-  const [users, setUsers] = useState([]);
+export const UserPanel = () => {
+  const [users, setUsers] = useState([]); // fixed
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/admin/users");
-        setUsers(res.data);
+        const res = await axios.get("http://localhost:3000/admin/users"); // fixed
+        setUsers(res.data); // fixed
         setLoading(false);
       } catch (err) {
         console.error(err);
         setLoading(false);
       }
     };
-    fetchUsers();
+    fetchUsers(); // fixed
   }, []);
 
   if (loading) return <p className="text-center mt-10">Loading users...</p>;
