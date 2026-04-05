@@ -42,12 +42,12 @@ export const UserNavbar = () => {
           <li>
             <Link to="contact" className="hover:text-red-600">CONTACT</Link>
           </li>
-          <li>
+          {/*<li>
             <Link to="getapidemo" className="hover:text-red-600">GET API DEMO</Link>
           </li>
           <li>
             <Link to="useeffectdemo" className="hover:text-red-600">USE EFFECT DEMO</Link>
-          </li>
+          </li>*/}
         </ul>
 
         {/* Buttons */}

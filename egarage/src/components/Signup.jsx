@@ -1,34 +1,37 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react";
 
 const Signup = () => {
-
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
-  const { register, handleSubmit, formState: { errors }, watch, reset } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+    reset,
+  } = useForm();
 
   const password = watch("password");
 
   const submitHandler = async (data) => {
-    console.log("data", data);
-
     try {
-      const res = await axios.post("http://localhost:3000/user/register", data);
-
-      console.log("response..", res);
+      const res = await axios.post(
+        "http://localhost:3000/user/register",
+        data
+      );
 
       if (res.status === 201) {
         alert("User Registered Successfully ✅");
-        reset(); // form clear
+        reset();
         navigate("/");
       }
-
     } catch (err) {
-      console.log(err);
-
-      // 🔥 Backend error handling
       if (err.response?.data?.error) {
         alert(err.response.data.error);
       } else {
@@ -38,149 +41,179 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen flex">
-      
-      {/* Left Side Image */}
-      <div className="hidden md:flex w-1/2">
-        <img
-          src="https://images.unsplash.com/photo-1487754180451-c456f719a1fc"
-          alt="garage"
-          className="w-full h-full object-cover"
-        />
-      </div>
+    <div
+      className="min-h-screen flex items-center justify-center relative bg-cover bg-center"
+      style={{
+        backgroundImage:
+          "url('https://images.unsplash.com/photo-1503376780353-7e6692767b70')", // 🚗 Garage/Car image
+      }}
+    >
+      {/* 🔥 Dark + Blur Overlay */}
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
 
-      {/* Right Side Form */}
-      <div className="flex w-full md:w-1/2 items-center justify-center bg-gray-100">
-        <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl">
-          <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">
-            Create eGarage Account
-          </h2>
+      {/* 🧊 Glass Card */}
+      <div className="relative z-10 w-full max-w-md p-8 rounded-2xl 
+        bg-white/10 backdrop-blur-xl border border-white/20 
+        shadow-2xl text-white">
 
-          <form onSubmit={handleSubmit(submitHandler)} className="space-y-4">
-          
-            {/* First Name */}
-            <div>
-              <label className="block mb-1 font-medium">First Name</label>
-              <input
-                type="text"
-                placeholder="Enter first name"
-                {...register("firstName", { required: "First name is required" })}
-                className="w-full px-4 py-2 border rounded-lg"
-              />
-              {errors.firstName && (
-                <p className="text-red-500 text-sm">{errors.firstName.message}</p>
-              )}
-            </div>
+        <h2 className="text-3xl font-bold text-center mb-6">
+          Create Account 🚀
+        </h2>
 
-            {/* Last Name */}
-            <div>
-              <label className="block mb-1 font-medium">Last Name</label>
-              <input
-                type="text"
-                placeholder="Enter last name"
-                {...register("lastName", { required: "Last name is required" })}
-                className="w-full px-4 py-2 border rounded-lg"
-              />
-              {errors.lastName && (
-                <p className="text-red-500 text-sm">{errors.lastName.message}</p>
-              )}
-            </div>
+        <form onSubmit={handleSubmit(submitHandler)} className="space-y-4">
 
-            {/* Email */}
-            <div>
-              <label className="block mb-1 font-medium">Email</label>
-              <input
-                type="email"
-                placeholder="Enter your email"
-                {...register("email", { required: "Email is required" })}
-                className="w-full px-4 py-2 border rounded-lg"
-              />
-              {errors.email && (
-                <p className="text-red-500 text-sm">{errors.email.message}</p>
-              )}
-            </div>
+          {/* First Name */}
+          <div>
+            <label className="block mb-1 text-sm">First Name</label>
+            <input
+              type="text"
+              placeholder="Enter first name"
+              {...register("firstName", { required: "First name is required" })}
+              className="w-full px-4 py-2 rounded-lg 
+              bg-white/20 border border-white/30 
+              focus:outline-none focus:ring-2 focus:ring-blue-400
+              placeholder-gray-300 text-white"
+            />
+            {errors.firstName && (
+              <p className="text-red-400 text-sm">{errors.firstName.message}</p>
+            )}
+          </div>
 
-            {/* Phone */}
-            <div>
-              <label className="block mb-1 font-medium">Phone</label>
-              <input
-                type="tel"
-                placeholder="Enter your phone number"
-                {...register("phone", {
-                  required: "Phone number is required",
-                  minLength: {
-                    value: 10,
-                    message: "Enter valid phone number",
-                  },
-                })}
-                className="w-full px-4 py-2 border rounded-lg"
-              />
-              {errors.phone && (
-                <p className="text-red-500 text-sm">{errors.phone.message}</p>
-              )}
-            </div>
+          {/* Last Name */}
+          <div>
+            <label className="block mb-1 text-sm">Last Name</label>
+            <input
+              type="text"
+              placeholder="Enter last name"
+              {...register("lastName", { required: "Last name is required" })}
+              className="w-full px-4 py-2 rounded-lg 
+              bg-white/20 border border-white/30 
+              focus:outline-none focus:ring-2 focus:ring-blue-400
+              placeholder-gray-300 text-white"
+            />
+            {errors.lastName && (
+              <p className="text-red-400 text-sm">{errors.lastName.message}</p>
+            )}
+          </div>
 
-            {/* Password */}
-            <div>
-              <label className="block mb-1 font-medium">Password</label>
-              <input
-                type="password"
-                placeholder="Enter password"
-                {...register("password", {
-                  required: "Password is required",
-                  minLength: {
-                    value: 6,
-                    message: "Minimum 6 characters required",
-                  },
-                })}
-                className="w-full px-4 py-2 border rounded-lg"
-              />
-              {errors.password && (
-                <p className="text-red-500 text-sm">
-                  {errors.password.message}
-                </p>
-              )}
-            </div>
+          {/* Email */}
+          <div>
+            <label className="block mb-1 text-sm">Email</label>
+            <input
+              type="email"
+              placeholder="Enter your email"
+              {...register("email", { required: "Email is required" })}
+              className="w-full px-4 py-2 rounded-lg 
+              bg-white/20 border border-white/30 
+              focus:outline-none focus:ring-2 focus:ring-blue-400
+              placeholder-gray-300 text-white"
+            />
+            {errors.email && (
+              <p className="text-red-400 text-sm">{errors.email.message}</p>
+            )}
+          </div>
 
-            {/* Confirm Password */}
-            <div>
-              <label className="block mb-1 font-medium">Confirm Password</label>
-              <input
-                type="password"
-                placeholder="Confirm password"
-                {...register("confirmPassword", {
-                  required: "Confirm your password",
-                  validate: (value) =>
-                    value === password || "Passwords do not match",
-                })}
-                className="w-full px-4 py-2 border rounded-lg"
-              />
-              {errors.confirmPassword && (
-                <p className="text-red-500 text-sm">
-                  {errors.confirmPassword.message}
-                </p>
-              )}
-            </div>
+          {/* Phone */}
+          <div>
+            <label className="block mb-1 text-sm">Phone</label>
+            <input
+              type="tel"
+              placeholder="Enter your phone number"
+              {...register("phone", {
+                required: "Phone number is required",
+                minLength: {
+                  value: 10,
+                  message: "Enter valid phone number",
+                },
+              })}
+              className="w-full px-4 py-2 rounded-lg 
+              bg-white/20 border border-white/30 
+              focus:outline-none focus:ring-2 focus:ring-blue-400
+              placeholder-gray-300 text-white"
+            />
+            {errors.phone && (
+              <p className="text-red-400 text-sm">{errors.phone.message}</p>
+            )}
+          </div>
 
-            {/* Button */}
+          {/* Password */}
+          <div className="relative">
+            <label className="block mb-1 text-sm">Password</label>
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Enter password"
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 6,
+                  message: "Minimum 6 characters required",
+                },
+              })}
+              className="w-full px-4 py-2 rounded-lg pr-10
+              bg-white/20 border border-white/30 
+              focus:outline-none focus:ring-2 focus:ring-blue-400
+              placeholder-gray-300 text-white"
+            />
             <button
-              type="submit"
-              className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-9 text-gray-300"
             >
-              Sign Up
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
-          </form>
+          </div>
 
-          <p className="text-center text-sm mt-4">
-            Already have an account?{" "}
-            <span 
-              onClick={() => navigate("/login")}
-              className="text-blue-600 cursor-pointer"
+          {/* Confirm Password */}
+          <div className="relative">
+            <label className="block mb-1 text-sm">Confirm Password</label>
+            <input
+              type={showConfirm ? "text" : "password"}
+              placeholder="Confirm password"
+              {...register("confirmPassword", {
+                required: "Confirm your password",
+                validate: (value) =>
+                  value === password || "Passwords do not match",
+              })}
+              className="w-full px-4 py-2 rounded-lg pr-10
+              bg-white/20 border border-white/30 
+              focus:outline-none focus:ring-2 focus:ring-blue-400
+              placeholder-gray-300 text-white"
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirm(!showConfirm)}
+              className="absolute right-3 top-9 text-gray-300"
             >
-              Login
-            </span>
-          </p>
-        </div>
+              {showConfirm ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+
+            {errors.confirmPassword && (
+              <p className="text-red-400 text-sm">
+                {errors.confirmPassword.message}
+              </p>
+            )}
+          </div>
+
+          {/* Button */}
+          <button
+            type="submit"
+            className="w-full py-2 rounded-lg font-semibold
+            bg-gradient-to-r from-blue-500 to-purple-600
+            hover:scale-105 transition-all duration-300"
+          >
+            Sign Up
+          </button>
+        </form>
+
+        <p className="text-center text-sm mt-4 text-gray-300">
+          Already have an account?{" "}
+          <span
+            onClick={() => navigate("/login")}
+            className="text-blue-400 cursor-pointer hover:underline"
+          >
+            Login
+          </span>
+        </p>
       </div>
     </div>
   );

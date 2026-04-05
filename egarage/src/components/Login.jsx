@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import { Eye, EyeOff } from "lucide-react";
 
 const Login = () => {
-
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -17,67 +16,75 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-  try {
-    const res = await axios.post(
-      "http://localhost:3000/user/login", // ✅ FIXED PORT
-      data
-    );
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/user/login",
+        data
+      );
 
-    if (res.status === 200) {
-      // ✅ Save token & role
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("role", res.data.role);
+      if (res.status === 200) {
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("role", res.data.role);
 
-      toast.success("Login Successful ✅");
+        toast.success("Login Successful ✅");
 
-      // 🔥 ROLE BASED REDIRECT
-      if (res.data.role === "admin") {
-        navigate("/admin"); // admin dashboard
-      } else {
-        navigate("/user"); // normal user page
+        if (res.data.role === "admin") {
+          navigate("/admin");
+        } else {
+          navigate("/user");
+        }
       }
+    } catch (err) {
+      const msg =
+        err.response?.data?.message || "Invalid email or password ❌";
+      toast.error(msg);
     }
-  } catch (err) {
-    console.log("Login Error:", err);
-
-    const msg =
-      err.response?.data?.message || "Invalid email or password ❌";
-
-    toast.error(msg);
-  }
-};
+  };
 
   return (
-    <div
-      className="min-h-screen flex items-center justify-center bg-cover bg-center relative"
-      style={{
-        backgroundImage: "url('/login-bg.png')",
-      }}
-    >
-      {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-black bg-opacity-60"></div>
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
 
-      {/* Login Card */}
-      <div className="relative z-10 w-full max-w-md bg-white bg-opacity-95 backdrop-blur-md p-8 rounded-2xl shadow-2xl">
-        <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">
-          eGarage Login
+      {/* 🔧 Background Image (Mechanic Working) */}
+      <img
+        src="https://images.unsplash.com/photo-1625047509168-a7026f36de04?auto=format&fit=crop&w=1920&q=80"
+        alt="mechanic repairing car"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+      
+      {/* 🌑 Dark Overlay */}
+      <div className="absolute inset-0 bg-black/70"></div>
+
+      {/* ✨ Light Blur Layer */}
+      <div className="absolute inset-0 backdrop-blur-[3px]"></div>
+
+      {/* 🧊 Glass Card */}
+      <div className="relative z-10 w-full max-w-md p-8 rounded-2xl 
+        bg-white/10 backdrop-blur-xl border border-white/20 
+        shadow-2xl text-white">
+
+        <h2 className="text-3xl font-bold text-center mb-6">
+          Welcome Back 👋
         </h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-          
+
           {/* Email */}
           <div>
-            <label className="block mb-1 font-medium">Email</label>
+            <label className="block mb-1 text-sm">Email</label>
             <input
               type="email"
+              autoComplete="email"
               placeholder="Enter your email"
               {...register("email", {
                 required: "Email is required",
               })}
-              className="w-full px-4 py-2 border rounded-lg"
+              className="w-full px-4 py-2 rounded-lg 
+              bg-white/20 border border-white/30 
+              focus:outline-none focus:ring-2 focus:ring-blue-400
+              placeholder-gray-300 text-white"
             />
             {errors.email && (
-              <p className="text-red-500 text-sm mt-1">
+              <p className="text-red-400 text-sm mt-1">
                 {errors.email.message}
               </p>
             )}
@@ -85,31 +92,31 @@ const Login = () => {
 
           {/* Password */}
           <div className="relative">
-            <label className="block mb-1 font-medium">Password</label>
+            <label className="block mb-1 text-sm">Password</label>
 
             <input
               type={showPassword ? "text" : "password"}
+              autoComplete="current-password"
               placeholder="Enter your password"
               {...register("password", {
                 required: "Password is required",
-                minLength: {
-                  value: 6,
-                  message: "Minimum 6 characters required",
-                },
               })}
-              className="w-full px-4 py-2 border rounded-lg pr-10"
+              className="w-full px-4 py-2 rounded-lg pr-10
+              bg-white/20 border border-white/30 
+              focus:outline-none focus:ring-2 focus:ring-blue-400
+              placeholder-gray-300 text-white"
             />
 
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-9 text-gray-600"
+              className="absolute right-3 top-9 text-gray-300"
             >
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
 
             {errors.password && (
-              <p className="text-red-500 text-sm mt-1">
+              <p className="text-red-400 text-sm mt-1">
                 {errors.password.message}
               </p>
             )}
@@ -118,17 +125,19 @@ const Login = () => {
           {/* Button */}
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
+            className="w-full py-2 rounded-lg font-semibold
+            bg-gradient-to-r from-blue-500 to-purple-600
+            hover:scale-105 transition-all duration-300"
           >
             Login
           </button>
         </form>
 
-        <p className="text-center text-sm mt-4">
+        <p className="text-center text-sm mt-4 text-gray-300">
           Don’t have an account?{" "}
           <span
             onClick={() => navigate("/signup")}
-            className="text-blue-600 cursor-pointer"
+            className="text-blue-400 cursor-pointer hover:underline"
           >
             Register
           </span>
@@ -137,4 +146,5 @@ const Login = () => {
     </div>
   );
 };
-export default Login; 
+
+export default Login;
