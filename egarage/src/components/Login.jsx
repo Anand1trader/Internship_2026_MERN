@@ -44,17 +44,14 @@ const Login = () => {
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
 
-      {/* 🔧 Background Image (Mechanic Working) */}
+      {/* 🔧 Background */}
       <img
         src="https://images.unsplash.com/photo-1625047509168-a7026f36de04?auto=format&fit=crop&w=1920&q=80"
         alt="mechanic repairing car"
         className="absolute inset-0 w-full h-full object-cover"
       />
       
-      {/* 🌑 Dark Overlay */}
       <div className="absolute inset-0 bg-black/70"></div>
-
-      {/* ✨ Light Blur Layer */}
       <div className="absolute inset-0 backdrop-blur-[3px]"></div>
 
       {/* 🧊 Glass Card */}
@@ -73,7 +70,6 @@ const Login = () => {
             <label className="block mb-1 text-sm">Email</label>
             <input
               type="email"
-              autoComplete="email"
               placeholder="Enter your email"
               {...register("email", {
                 required: "Email is required",
@@ -96,7 +92,6 @@ const Login = () => {
 
             <input
               type={showPassword ? "text" : "password"}
-              autoComplete="current-password"
               placeholder="Enter your password"
               {...register("password", {
                 required: "Password is required",
@@ -120,6 +115,16 @@ const Login = () => {
                 {errors.password.message}
               </p>
             )}
+          </div>
+
+          {/* 🔥 FORGOT PASSWORD BUTTON */}
+          <div className="flex justify-end">
+            <span
+              onClick={() => navigate("/forgot-password")}
+              className="text-sm text-blue-400 cursor-pointer hover:underline hover:text-blue-300 transition"
+            >
+              Forgot Password?
+            </span>
           </div>
 
           {/* Button */}

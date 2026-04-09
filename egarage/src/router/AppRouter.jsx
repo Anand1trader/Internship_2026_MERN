@@ -13,9 +13,13 @@ import { AdminServices } from "../components/admin/AdminServices";
 import { GetApiDemo } from "../components/user/GetApiDemo";
 import { UseEffectDemo } from "../components/user/UseEffectDemo";
 import { Contact } from "../components/user/Contact";
+import ForgotPassword from "../components/ForgotPassword";
+import ResetPassword from "../components/ResetPassword";
 const router = createBrowserRouter([
     {path:"/", element:<Login/>},
     {path:"/signup", element:<Signup/>},
+    {path:"/forgot-password", element:<ForgotPassword/>},
+    {path:"/reset-password/:token", element:<ResetPassword/>},
     {
         path:"/user", element:<UserNavbar/>,
         children:[
