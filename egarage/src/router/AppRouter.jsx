@@ -15,6 +15,7 @@ import { UseEffectDemo } from "../components/user/UseEffectDemo";
 import { Contact } from "../components/user/Contact";
 import ForgotPassword from "../components/ForgotPassword";
 import ResetPassword from "../components/ResetPassword";
+import { Dashboard } from "../components/user/Dashboard";
 const router = createBrowserRouter([
     {path:"/", element:<Login/>},
     {path:"/signup", element:<Signup/>},
@@ -23,6 +24,7 @@ const router = createBrowserRouter([
     {
         path:"/user", element:<UserNavbar/>,
         children:[
+            {path:"dashboard", element:<Dashboard/>},
             {path:"about", element:<About/>},
             {path:"services", element:<Services/>},
             {path:"contact", element:<Contact/>},

@@ -7,10 +7,9 @@ export const Services = () => {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [bookingDate, setBookingDate] = useState("");
-  const [darkMode, setDarkMode] = useState(true); // ✅ default dark
+  const [darkMode, setDarkMode] = useState(true);
   const [modalService, setModalService] = useState(null);
 
-  const userId = localStorage.getItem("userId");
   const garageId = "65f123abc123xyz";
 
   useEffect(() => {
@@ -18,9 +17,9 @@ export const Services = () => {
       try {
         const res = await axios.get("http://localhost:3000/service/services");
         setServices(res.data);
-        setLoading(false);
       } catch (err) {
         console.log("Fetch Error:", err);
+      } finally {
         setLoading(false);
       }
     };
@@ -28,13 +27,20 @@ export const Services = () => {
   }, []);
 
   const handleBooking = async () => {
+    const token = localStorage.getItem("token"); // ✅ ALWAYS inside function
+
     if (!bookingDate) {
       toast.error("Please select a booking date ❌");
       return;
     }
 
-    if (!userId) {
+    if (!token) {
       toast.error("User not logged in ❌");
+      return;
+    }
+
+    if (!modalService) {
+      toast.error("Service not selected ❌");
       return;
     }
 
@@ -43,7 +49,6 @@ export const Services = () => {
       modalService.price - (modalService.price * discount) / 100;
 
     const bookingData = {
-      user: userId,
       garage: garageId,
       service: modalService._id,
       date: bookingDate,
@@ -51,12 +56,22 @@ export const Services = () => {
     };
 
     try {
-      await axios.post("http://localhost:3000/booking", bookingData);
+      await axios.post(
+        "http://localhost:3000/booking",
+        bookingData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
       toast.success("Booking Confirmed ✅");
       setModalService(null);
+      setBookingDate("");
     } catch (err) {
-      console.log(err);
-      toast.error("Booking failed ❌");
+      console.log("BOOKING ERROR:", err.response?.data || err.message);
+      toast.error(err.response?.data?.message || "Booking failed ❌");
     }
   };
 
@@ -65,34 +80,30 @@ export const Services = () => {
 
   return (
     <div className={darkMode ? "dark" : ""}>
-      {/* 🌌 PREMIUM DARK BLUE BACKGROUND */}
       <div className="fixed inset-0 -z-10 bg-gradient-to-br from-blue-950 via-blue-900 to-black"></div>
 
       <div className="min-h-screen p-6 text-gray-100">
-        
-        {/* 🔹 TOGGLE */}
+
         <button
           onClick={() => setDarkMode(!darkMode)}
-          className="absolute top-5 right-5 px-4 py-2 rounded-lg bg-blue-800 text-white hover:bg-blue-700 transition"
+          className="absolute top-5 right-5 px-4 py-2 rounded-lg bg-blue-800 text-white"
         >
           {darkMode ? "☀️ Light" : "🌙 Dark"}
         </button>
 
-        <h1 className="text-5xl font-extrabold text-center mb-8 tracking-wide text-blue-400 drop-shadow-lg">
+        <h1 className="text-5xl font-extrabold text-center mb-8 text-blue-400">
           Premium Car Services
         </h1>
 
-        {/* 📅 DATE */}
         <div className="text-center mb-8">
           <input
             type="date"
-            className="px-4 py-2 rounded-lg bg-blue-900 border border-blue-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-4 py-2 rounded-lg bg-blue-900 border border-blue-700 text-white"
             value={bookingDate}
             onChange={(e) => setBookingDate(e.target.value)}
           />
         </div>
 
-        {/* 🔥 SERVICES GRID */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service) => {
             const discount = service.discount || 0;
@@ -102,30 +113,18 @@ export const Services = () => {
             return (
               <motion.div
                 key={service._id}
-                className="bg-gradient-to-br from-blue-900 to-blue-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition transform hover:-translate-y-2 border border-blue-700"
+                className="bg-gradient-to-br from-blue-900 to-blue-800 rounded-2xl shadow-lg overflow-hidden"
                 whileHover={{ scale: 1.05 }}
               >
-                {/* IMAGE */}
-                <div className="relative group">
-                  <img
-                    src={
-                      service.image
-                        ? service.image
-                        : `https://source.unsplash.com/400x300/?car,garage,${service.name}`
-                    }
-                    alt={service.name}
-                    className="w-full h-48 object-cover group-hover:scale-110 transition duration-500"
-                  />
+                <img
+                  src={
+                    service.image ||
+                    `https://source.unsplash.com/400x300/?car`
+                  }
+                  alt={service.name}
+                  className="w-full h-48 object-cover"
+                />
 
-                  {/* DISCOUNT */}
-                  {discount > 0 && (
-                    <div className="absolute top-3 left-3 bg-red-600 text-white px-3 py-1 rounded-lg text-sm shadow">
-                      {discount}% OFF
-                    </div>
-                  )}
-                </div>
-
-                {/* CONTENT */}
                 <div className="p-6">
                   <h2 className="text-xl font-bold text-blue-300">
                     {service.name}
@@ -135,7 +134,6 @@ export const Services = () => {
                     {service.description}
                   </p>
 
-                  {/* PRICE */}
                   <div className="mb-2">
                     {discount > 0 ? (
                       <>
@@ -153,13 +151,9 @@ export const Services = () => {
                     )}
                   </div>
 
-                  <p className="text-gray-400 mb-3">
-                    Duration: {service.duration || "N/A"}
-                  </p>
-
                   <button
                     onClick={() => setModalService(service)}
-                    className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-500 transition"
+                    className="w-full bg-blue-600 py-2 rounded-lg"
                   >
                     Book Now
                   </button>
@@ -169,36 +163,33 @@ export const Services = () => {
           })}
         </div>
 
-        {/* 🔹 MODAL */}
+        {/* MODAL */}
         {modalService && (
           <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50">
-            <div className="bg-blue-900 text-white p-6 rounded-xl text-center shadow-xl border border-blue-700">
+            <div className="bg-blue-900 p-6 rounded-xl text-center">
 
               <h2 className="text-2xl font-bold text-blue-300">
                 {modalService.name}
               </h2>
 
               <p className="mt-2">
-                Price: ₹
-                {modalService.discount
-                  ? modalService.price -
-                    (modalService.price * modalService.discount) / 100
-                  : modalService.price}
+                Price: ₹{modalService.price}
               </p>
 
               <button
                 onClick={handleBooking}
-                className="mt-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500 transition"
+                className="mt-4 bg-green-600 px-4 py-2 rounded"
               >
                 Confirm
               </button>
 
               <button
                 onClick={() => setModalService(null)}
-                className="ml-3 bg-gray-600 px-4 py-2 rounded hover:bg-gray-500 transition"
+                className="ml-3 bg-gray-600 px-4 py-2 rounded"
               >
                 Cancel
               </button>
+
             </div>
           </div>
         )}

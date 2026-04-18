@@ -29,7 +29,7 @@ const Signup = () => {
       if (res.status === 201) {
         alert("User Registered Successfully ✅");
         reset();
-        navigate("/");
+        navigate("/login");
       }
     } catch (err) {
       if (err.response?.data?.error) {

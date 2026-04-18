@@ -6,9 +6,10 @@ export const UserNavbar = () => {
   const location = useLocation();
 
   const menuItems = [
-    { name: "HOME", path: "/" },
-    { name: "ABOUT", path: "/user/about" },
+    
+    { name: "HOME", path: "/user/about" },
     { name: "SERVICES", path: "/user/services" },
+    { name: "DASHBOARD", path: "/user/Dashboard" },
     { name: "CONTACT", path: "/user/contact" },
   ];
 
